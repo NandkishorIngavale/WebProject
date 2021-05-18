@@ -154,7 +154,6 @@ namespace WebProject.Controllers
         }
         [HttpGet]
         [Route("oledb")]
-        [SupportedOSPlatform("linux")]
         public IActionResult GetReadingFromOLEDB(string filename)
         {
             try
