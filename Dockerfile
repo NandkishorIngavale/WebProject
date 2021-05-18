@@ -16,8 +16,6 @@ RUN dotnet build "WebProject.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "WebProject.csproj" -c Release -o /app/publish
 
-RUN Jet40SP8_9xNT.exe /Q
-
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
