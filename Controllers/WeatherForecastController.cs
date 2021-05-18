@@ -47,7 +47,7 @@ namespace WebProject.Controllers
                     reader = ExcelReaderFactory.CreateOpenXmlReader(filestream);
                 if (reader != null)
                 {
-                    content = reader.FieldCount;
+                    content = reader.ResultsCount;
                     while (reader.Read())
                     {
                         object i = reader.GetValue(0);
@@ -82,7 +82,7 @@ namespace WebProject.Controllers
                 using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     var workbook = excelEngine.Excel.Workbooks.Open(stream);
-                    return Ok(workbook.MaxColumnCount);
+                    return Ok(workbook.MaxRowCount);
                 }
             }
             catch (Exception ex)
