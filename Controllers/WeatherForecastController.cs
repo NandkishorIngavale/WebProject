@@ -40,7 +40,7 @@ namespace WebProject.Controllers
                 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                 string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
                 int content = 0;
-                using var filestream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using var filestream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 if (Path.GetExtension(FilePath).Equals(".xls"))
                     reader = ExcelReaderFactory.CreateBinaryReader(filestream);
                 else if (Path.GetExtension(FilePath).Equals(".xlsx"))
@@ -78,8 +78,8 @@ namespace WebProject.Controllers
             try
             {
                 ExcelEngine excelEngine = new ExcelEngine();
-                string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
-                using (var stream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read))
+               // string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
+                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     var workbook = excelEngine.Excel.Workbooks.Open(stream);
                     return Ok(workbook.MaxColumnCount);
@@ -101,7 +101,7 @@ namespace WebProject.Controllers
                 ExcelPackage.LicenseContext = LicenseContext.Commercial;
                 using (var pck = new OfficeOpenXml.ExcelPackage())
                 {
-                    using (var stream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read))
+                    using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                     {
 
                         pck.Load(stream);
@@ -124,7 +124,7 @@ namespace WebProject.Controllers
             try
             {
 
-                using (var stream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read))
+                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     XSSFWorkbook xssWorkbook = new XSSFWorkbook(stream);
                     return Ok(xssWorkbook.Count);
@@ -144,7 +144,7 @@ namespace WebProject.Controllers
 
                 SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
                 // Load Excel workbook from file's path.
-                ExcelFile workbook = ExcelFile.Load("Bulk Records.xlsx");
+                ExcelFile workbook = ExcelFile.Load(filename);
                 return Ok();
             }
             catch (Exception ex)
