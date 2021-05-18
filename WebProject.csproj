@@ -26,6 +26,7 @@
     <PackageReference Include="NPOI" Version="2.5.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="19.1.0.63" />
+    <PackageReference Include="System.Data.OleDb" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Hosting;
 using OfficeOpenXml;
 using NPOI.XSSF.UserModel;
 using GemBox.Spreadsheet;
+using System.Data.OleDb;
+using System.Runtime.Versioning;
 
 namespace WebProject.Controllers
 {
@@ -23,13 +25,14 @@ namespace WebProject.Controllers
     {
 
         private readonly IWebHostEnvironment _env;
+        private string sPath = "Bulk Records.xlsx";
         public DataReadingController(IWebHostEnvironment env)
         {
             _env = env;
         }
-        [HttpPost]
+        [HttpGet]
         [Route("exceldatareader")]
-        public IActionResult GetReadingFromExceldatareader()
+        public IActionResult GetReadingFromExceldatareader(string filename)
         {
             try
             {
@@ -68,9 +71,9 @@ namespace WebProject.Controllers
 
         }
         //epplus and npo
-        [HttpPost]
+        [HttpGet]
         [Route("syncfusion")]
-        public IActionResult GetReadingFromSyncfusion()
+        public IActionResult GetReadingFromSyncfusion(string filename)
         {
             try
             {
@@ -89,9 +92,9 @@ namespace WebProject.Controllers
             }
 
         }
-        [HttpPost]
+        [HttpGet]
         [Route("epplus")]
-        public IActionResult GetReadingFromEPPlus()
+        public IActionResult GetReadingFromEPPlus(string filename)
         {
             try
             {
@@ -114,9 +117,9 @@ namespace WebProject.Controllers
             }
 
         }
-        [HttpPost]
+        [HttpGet]
         [Route("npoi")]
-        public IActionResult GetReadingFromnpoi()
+        public IActionResult GetReadingFromnpoi(string filename)
         {
             try
             {
@@ -132,9 +135,9 @@ namespace WebProject.Controllers
                 return Ok(ex.Message + " " + ex.StackTrace.ToString());
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("gemboxspreadsheet")]
-        public IActionResult GetReadingFromGemBoxSpreadsheet()
+        public IActionResult GetReadingFromGemBoxSpreadsheet(string filename)
         {
             try
             {
@@ -149,13 +152,31 @@ namespace WebProject.Controllers
                 return Ok(ex.Message + " " + ex.StackTrace.ToString());
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("oledb")]
-        public IActionResult GetReadingFromOLEDB()
+        [SupportedOSPlatform("linux")]
+        public IActionResult GetReadingFromOLEDB(string filename)
         {
             try
             {
+                string strFilePath = filename;
+                string connString = string.Empty;
 
+                if (Path.GetExtension(strFilePath).ToLower().Trim() == ".xls" && Environment.Is64BitOperatingSystem == false)
+                    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + strFilePath + ";Extended Properties=Excel 8.0;HDR=Yes;IMEX=2";
+                else
+                connString = "Provider=Microsoft.ACE.OLEDB.12.0; ";
+                connString = connString + "Data Source='" + strFilePath;
+                connString = connString + "';Extended Properties=\"Excel 12.0;HDR=YES;\"";
+
+                using (OleDbConnection conn = new OleDbConnection(connString))
+                {
+                    conn.Open();
+                    OleDbDataAdapter objDA = new System.Data.OleDb.OleDbDataAdapter
+                    ("select * from [Sheet1$]", conn);
+                    DataSet excelDataSet = new DataSet();
+                    objDA.Fill(excelDataSet);
+                }
                 return Ok();
             }
             catch (Exception ex)
