@@ -41,9 +41,9 @@ namespace WebProject.Controllers
                 string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
                 int content = 0;
                 using var filestream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                if (Path.GetExtension(FilePath).Equals(".xls"))
+                if (Path.GetExtension(filename).Equals(".xls"))
                     reader = ExcelReaderFactory.CreateBinaryReader(filestream);
-                else if (Path.GetExtension(FilePath).Equals(".xlsx"))
+                else if (Path.GetExtension(filename).Equals(".xlsx"))
                     reader = ExcelReaderFactory.CreateOpenXmlReader(filestream);
                 if (reader != null)
                 {

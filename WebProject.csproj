@@ -5,23 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Bulk Records.xlsx" />
-    <None Remove="Bulk_Records_10K_2003.xls" />
-    <None Remove="Bulk_Records_40K_2007.xlsx" />
-    <None Remove="Jet40SP8_9xNT.exe" />
+    <None Remove="Bulk_Records_2003.xls" />
+    <None Remove="Bulk_Records_2007.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Bulk Records.xlsx">
+    <Content Include="Bulk_Records_2003.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Bulk_Records_10K_2003.xls">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Bulk_Records_40K_2007.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Jet40SP8_9xNT.exe">
+    <Content Include="Bulk_Records_2007.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
