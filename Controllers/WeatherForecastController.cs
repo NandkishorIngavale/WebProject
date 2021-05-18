@@ -47,7 +47,7 @@ namespace WebProject.Controllers
                     reader = ExcelReaderFactory.CreateOpenXmlReader(filestream);
                 if (reader != null)
                 {
-                    content = reader.ResultsCount;
+                    content = reader.FieldCount;
                     while (reader.Read())
                     {
                         object i = reader.GetValue(0);
@@ -167,16 +167,16 @@ namespace WebProject.Controllers
                 connString = "Provider=Microsoft.ACE.OLEDB.12.0; ";
                 connString = connString + "Data Source='" + strFilePath;
                 connString = connString + "';Extended Properties=\"Excel 12.0;HDR=YES;\"";
-
+                DataSet excelDataSet = new DataSet();
                 using (OleDbConnection conn = new OleDbConnection(connString))
                 {
                     conn.Open();
                     OleDbDataAdapter objDA = new System.Data.OleDb.OleDbDataAdapter
                     ("select * from [Sheet1$]", conn);
-                    DataSet excelDataSet = new DataSet();
+                   
                     objDA.Fill(excelDataSet);
                 }
-                return Ok();
+                return Ok(excelDataSet.Tables[0].Rows.Count);
             }
             catch (Exception ex)
             {
